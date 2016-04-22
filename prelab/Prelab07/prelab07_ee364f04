@@ -1,0 +1,11 @@
+1. A class is the definition of an object.
+
+2. Member variable is the variable inside an object, it need to be accessed through the object.
+
+3. Member function is the function tied with an object, it need to be called through the object. The self is used to specify that the funciton is called through this object.
+
+4. Objects can inherit properties and functions from other objects. A derived object is an object that inherits from one or more base objects.
+
+5. Constructor is a special member function that is called to instantiate a class.
+
+6. some member functions those are "special", begin and end with two underscores, like "__init__". An objeect's constructor is called once during lifetime.

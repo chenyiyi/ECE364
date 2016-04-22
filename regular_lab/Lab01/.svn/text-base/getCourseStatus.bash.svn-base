@@ -1,0 +1,59 @@
+#! /bin/bash
+#
+#$Author$ Yiyi Chen
+#$Date$
+#$Revision$ 
+#$HeadURL$ 
+#$Id$ A combination of the above keywords
+
+Num_Of_Param=$#
+Param_Values=$@
+
+sum=0
+max=0
+num=0
+avg=0
+grade=0
+stu=0
+
+
+if (( $#!=1 ))
+then
+    echo "Usage : ./getCourseStatus.bash <filename>"
+    exit 1
+fi
+
+if [[ $1 != "ece364" && $1 != "ece337" && $1 != "ece468" ]]
+then
+    echo "course $1 is not a valid option"
+    exit 5
+fi
+
+for temp in $(ls gradebooks/$1*)
+do
+    getFinalScores.bash $temp
+    if (( $? != 0 ))
+    then
+	echo "Erro while running getFinalScores.bash"
+	exit 3
+    fi
+    output=$(echo $temp | cut -d '.' -f1)
+    output+=".out"
+    while read student
+    do 
+	((num=$num+1))
+	((grade=$(echo $student | cut -d ',' -f2)))
+	((sum=$sum+$grade))
+	((avg=$sum/$num))
+	if (($grade>$max))
+	then
+	    max=$grade
+	    stu=$(echo $student | cut -d ',' -f1)
+	fi
+    done<$output
+done
+echo "Total students: $num"
+echo "Average score: $avg"
+echo "$stu had the highest score of $max"
+
+exit 0

@@ -1,0 +1,44 @@
+#! /bin/bash
+#
+#$Author: ee364f04 $ Yiyi Chen
+#$Date: 
+#$Revision:  
+#$HeadURL: 
+#$Id: 
+
+Num_Of_Param=$#
+Param_Values=$@
+pro=(a i)
+
+if (( $#!=2 ))
+then 
+    echo "Usage: yards.bash <filename>"
+    exit 2
+elif [[ ! -e $1 ]]
+then 
+    echo "Error: $1 is not readable"
+    exit 2
+elif ! gcc $1 -o quick_sim
+then 
+    echo "Error: quick_sim could not be compiled!"
+else
+    # exec 4> $2
+    for (( cache = 1; cache <33 ; cache=$cache*2 ))
+    do 
+	for (( issue = 1; issue < 17; issue=$issue*2 ))
+	do 
+	    for p in ${pro[*]}
+	    do
+		out=$(quick_sim $cache $issue $p)
+		IFS=:
+		set $out
+		if [[ "$p" = "a" ]]
+		then
+		    echo $2:$6:$8:${10}>> $2
+		else
+		    echo $2:$6:$8:${10}>> $2
+		fi
+	    done
+	done
+    done
+fi

@@ -1,0 +1,14 @@
+1. re.search(r'\sA{2,5}\s', string)
+2. m = re.subn(r'[0-9]+\.[0-9]+','float', string)
+3. m.group(1)
+4. m = re,findall(r'\d+',string)
+	for i in m:
+ 	    sum += i
+	average = sum/len(m)
+5. re.subn(r'EE364','EE461', string, 1)
+6. h = re.match(r'(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])){3}
+7.  
+   1) search for e in non-senstive case
+   2) search for any string of any length followed by is a and then any string of any length
+   3) same as above, but put group name for each pattern
+   4) search for one I and at least 10 like and 1 or 2 you

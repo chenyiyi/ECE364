@@ -1,0 +1,37 @@
+#! /bin/bash
+#
+#$Author$ Yiyi Chen
+#$Date$
+#$Revision$ 
+#$HeadURL$ 
+#$Id$ A combination of the above keywords
+
+Num_Of_Param=$#
+Param_Values=$@
+
+sum=0
+exec 4> $1.out
+file=$(cut -d '.' -f1 $1)
+ 
+if (( $#!=1 ))
+then
+    echo "Usage : ./getStudentData.bash <filename>"
+    exit 1
+elif [[ ! -e $1 ]]
+then 
+    echo "Error reading input file: $@"
+    exit 2
+else 
+    cat $1 | while read student
+    do 
+     	((sum=$sum+15*$(echo $student | cut -d ',' -f2)/100))
+	((sum=$sum+30*$(echo $student | cut -d ',' -f3)/100))
+	((sum=$sum+30*$(echo $student | cut -d ',' -f4)/100))
+	((sum=$sum+25*$(echo $student | cut -d ',' -f5)/100))
+	name=$(echo $student | cut -d ',' -f1)
+	echo "$name $sum" >&4
+	sum=0
+    done
+fi
+
+exit 0

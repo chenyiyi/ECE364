@@ -1,0 +1,25 @@
+#! /bin/bash
+#
+#$Author: ee364f04 $ Yiyi Chen
+#$Date: 
+#$Revision:  
+#$HeadURL: 
+#$Id: 
+
+Num_Of_Param=$#
+Param_Values=$@
+#pro=(a i)
+#fastest=(0 0 0 5000)
+
+if (( $#!=1 ))
+then 
+    echo "Usage: yards.bash <filename>"
+    exit 1
+fi
+
+if [[ ! -r $1 ]]
+then 
+    echo "Error: $1 is not readable"
+    exit 2
+fi
+

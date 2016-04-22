@@ -1,0 +1,80 @@
+import os, sys, re, math, operator
+from pprint import pprint as pp
+
+class Simulation:
+    def __init__(self,number,a,b,c,d):
+        self.number = number
+        self.date = a
+        self.chipname = b
+        self.chipcount = c
+        self.chipcost =  d
+        self.total = c*d
+
+    def __str__(self):
+        strr = self.chipname + ': '+ str('%03d' %self.number) + ', ' + self.date + ', '+'$'+ str('%06.2f' %self.total)
+        return strr
+
+class Employee:
+    def __init__(self, name, ID):
+        self.name = name
+        self.Id = ID
+        self.simulationsDict = {}
+
+    def addSimulation(self,s):
+        self.simulationsDict.update({s.number:s})
+
+
+    def __str__(self):
+        c = list(self.simulationsDict.keys())
+        a = 0
+        for i in c:
+            a += 1
+        print(a)
+        sss = self.Id + ', ' + self.name + ': ' + str('%02d' %a) + ' Simulations'
+        return sss
+
+
+
+class facility:
+    def __init__(self,s):
+        self.name = s
+        self.students={}
+
+    def loadData(self,filename):
+        f = open(filename, 'r')
+        lines = f.readlines()
+        for line in lines:
+            f = re.findall(r'\d\d', line)
+            f1 = re.search(r'\d\d', line)
+            name = re.search(r'[A-Z][a-z]{1,} [A-Z][a-z]{1,}', line)
+            if name is not None:
+                student = Student(name.group())
+                self.students.update({name.group(): student})
+                b = name.group()
+            if f1 is not None:
+                a = Course(line[4:10], int(f[1]), int(f[2]), int(f[3]))
+                self.students[b].addCourse(a)
+
+    def __str__(self):
+        a = list(self.students.keys())
+        b = []
+        b.append(self.name + ": " + str(len(self.students)) + ' Students')
+        a.sort()
+        for i in a:
+            b.append(i)
+        c = '\n'.join(b)
+        return c
+
+    def saveData(self, filename):
+        f = open(filename, 'w')
+        names =[]
+        for name in self.students:
+            names.append(name)
+        names.sort()
+        b = []
+        for name in names:
+            a = self.students[name].generateTranscript()
+            b.append(a)
+        print(b)
+        c = '\n\n'.join(b)
+        f.write(c)

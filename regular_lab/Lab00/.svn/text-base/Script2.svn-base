@@ -1,0 +1,15 @@
+#! /bin/bash
+#
+#$Author$ Yiyi Chen
+#$Date$
+#$Revision$ 
+#$HeadURL$ 
+#$Id$ A combination of the above keywords
+
+Num_Of_Param=$#
+Param_Values=$@
+for (( I=$Param_Values; I >=0; I--))
+do
+    echo $I
+done
+exit 0

@@ -1,0 +1,16 @@
+#! /bin/bash
+#
+#$Author$ Yiyi Chen
+#$Date$
+#$Revision$ 
+#$HeadURL$ 
+#$Id$ A combination of the above keywords
+
+Num_Of_Param=$#
+Param_Values=$@
+echo "The program received $Num_Of_Param_parameters"
+echo "The parameters are : "
+echo "$Param_Values"
+echo "The 2nd parameter is \"$2\""
+echo "The 4th parameter is \"$4\""
+exit 0

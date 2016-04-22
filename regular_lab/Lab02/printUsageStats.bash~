@@ -1,0 +1,60 @@
+#! /bin/bash
+#
+#$Author: ee364f04 $ Yiyi Chen
+#$Date: 
+#$Revision:  
+#$HeadURL: 
+#$Id: 
+
+Num_Of_Param=$#
+Param_Values=$@
+#pro=(a i)
+#fastest=(0 0 0 5000)
+
+if (( $#!=1 ))
+then 
+    echo "Usage: yards.bash <filename>"
+    exit 1
+fi
+
+if [[ ! -r $1 ]]
+then 
+    echo "Error: $1 is not readable"
+    exit 2
+fi
+
+
+#need to modify!!!!!!!
+
+printf "Your choices are:\n1) First 10 people\n2) Last 5 names by highest zipcode\n3) Address of 6th-10th by reverse e-mail\n4) First 12 companies\n5) Pick a number of people\n6) Exit\n"
+#       Input choice
+echo -n "Your choice: "
+read userinput
+
+if (( $userinput == 1 ))
+then
+    #   Sort by state, city, last name, first name and print
+    sort -t"," -k7,7 -k5,5 -k2,2 -k1,1 $1 | head -n 10
+elif (( $userinput == 2 ))
+then
+    sort -t"," -n -k8,8 $1 | tail -n 5 | cut -d"," -f 1,2
+elif (( $userinput == 3 ))
+then
+    sort -t"," -r -k11,11 $1 | head -n 10 | tail -n 5 | cut -d"," -f 4
+elif (( $userinput == 4 ))
+then
+    sort -t"," -k3,3 $1 | head -n 12 | cut -d"," -f 3
+elif (( $userinput == 5 ))
+then
+    echo -n "Enter a number: "
+    read userinput2
+    sort -t"," -k2,2 -k1,1 $1 | head -n $userinput2
+elif (( $userinput == 6 ))
+then
+    echo "Have a nice day!"
+else
+    echo "Error! Invalid Selection!"
+    exit 0
+fi
+
+exit 0

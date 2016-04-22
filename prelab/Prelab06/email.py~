@@ -1,0 +1,177 @@
+import re
+
+def main():
+    with open('Part2.in', 'r') as open_file:
+        lines=open_file.readlines()
+        for ll in lines:
+            ll=ll.strip('\n')
+            ll=re.sub(r'(purdue.edu)', r'ecn.\1',ll)
+            ll=re.sub(r'(\d$)',r'\1/100',ll)
+            ll=str(ll)
+            print(ll)
+
+
+if __name__== "__main__":
+    main()
+
+
+
+def getUsersWithCompleteInfo():
+    f = open('SiteRegistration.txt', 'r')
+    lines = f.readlines()
+    state=''
+    validl={}
+    for line in lines:
+        num=re.search(r'\d\d\d..\d{1,}.\d{1,}', line)
+        if num is not None:
+            a = re.findall(r'\d\d\d', num.group())
+            b = re.findall(r'(?<=......)\d\d\d\d', num.group())
+            num = '(' + a[0] +') ' + a[1] + '-' + b[-1]
+        email=re.search(r'[a-zA-Z0-9._-]{1,}@purdue.com', line)
+        x=re.findall(r'[A-Z][a-z]{1,}..?[a-zA-Z]{1,}',line)
+        name=x[0]
+        commaflag = re.search(r'[,]', name)
+        if commaflag is not None:
+            a = re.findall(r'\w+', name)
+            name = a[1] + ' ' + a[0]
+        if len(x) is 2:
+            state=x[1]
+        if num is not None and email is not None and state is not '':
+            validl[name] =  (email.group(), num, state)
+        state =''
+    return validl
+
+
+
+
+
+
+def getUsersWithEmails():
+    f = open('SiteRegistration.txt', 'r')
+    lines = f.readlines()
+    validl={}
+    for line in lines:
+        email=re.search(r'[a-zA-Z0-9._-]{1,}@purdue.com', line)
+        x=re.findall(r'[A-Z][a-z]{1,}..?[a-zA-Z]{1,}',line)
+        name=x[0]
+        commaflag = re.search(r'[,]', name)
+        if commaflag is not None:
+            a = re.findall(r'\w+', name)
+            name = a[1] + ' ' + a[0]
+        if email is not None:
+            validl[name] = email.group()
+    return validl
+
+
+def getUsersWithPhones():
+    f = open('SiteRegistration.txt', 'r')
+    lines = f.readlines()
+    validl={}
+    for line in lines:
+        num=re.search(r'\d\d\d..\d{1,}.\d{1,}', line)
+        if num is not None:
+            a = re.findall(r'\d\d\d', num.group())
+            b = re.findall(r'(?<=......)\d\d\d\d', num.group())
+            num = '(' + a[0] +') ' + a[1] + '-' + b[-1]
+        email=re.search(r'[a-zA-Z0-9._-]{1,}@purdue.com', line)
+        x=re.findall(r'[A-Z][a-z]{1,}..?[a-zA-Z]{1,}',line)
+        name=x[0]
+        commaflag = re.search(r'[,]', name)
+        if commaflag is not None:
+            a = re.findall(r'\w+', name)
+            name = a[1] + ' ' + a[0]
+        if len(x) is 2:
+            state=x[1]
+        if num is not None:
+            validl[name] = num
+    return validl
+
+
+def getUsersWithStates():
+    f = open('SiteRegistration.txt', 'r')
+    lines = f.readlines()
+    state=''
+    validl={}
+    for line in lines:
+        x=re.findall(r'[A-Z][a-z]{1,}..?[a-zA-Z]{1,}',line)
+        name=x[0]
+        commaflag = re.search(r'[,]', name)
+        if commaflag is not None:
+            a = re.findall(r'\w+', name)
+            name = a[1] + ' ' + a[0]
+        if len(x) is 2:
+            state=x[1]
+        if state is not '':
+            validl[name] = state
+        state =''
+    return validl
+
+
+
+def getUsersWithoutEmails():
+    f = open('SiteRegistration.txt', 'r')
+    lines = f.readlines()
+    state=''
+    invalidl=[]
+    for line in lines:
+        num=re.search(r'\d\d\d..\d{1,}.\d{1,}', line)
+        email=re.search(r'[a-zA-Z0-9._-]{1,}@purdue.com', line)
+        x=re.findall(r'[A-Z][a-z]{1,}..?[a-zA-Z]{1,}',line)
+        name=x[0]
+        commaflag = re.search(r'[,]', name)
+        if commaflag is not None:
+            a = re.findall(r'\w+', name)
+            name = a[1] + ' ' + a[0]
+        if len(x) is 2:
+            state=x[1]
+        if email is None and (num is not None or state is not ''):
+            invalidl.append(name)
+        state =''
+    invalidl.sort()
+    return invalidl
+
+def getUsersWithoutPhones():
+    f = open('SiteRegistration.txt', 'r')
+    lines = f.readlines()
+    state=''
+    invalidl=[]
+    for line in lines:
+        num=re.search(r'\d\d\d..\d{1,}.\d{1,}', line)
+        email=re.search(r'[a-zA-Z0-9._-]{1,}@purdue.com', line)
+        x=re.findall(r'[A-Z][a-z]{1,}..?[a-zA-Z]{1,}',line)
+        name=x[0]
+        commaflag = re.search(r'[,]', name)
+        if commaflag is not None:
+            a = re.findall(r'\w+', name)
+            name = a[1] + ' ' + a[0]
+        if len(x) is 2:
+            state=x[1]
+        if num is None and (email is not None or state is not ''):
+            invalidl.append(name)
+        state =''
+    invalidl.sort()
+    return invalidl
+
+
+def getUsersWithoutStates():
+    f = open('SiteRegistration.txt', 'r')
+    lines = f.readlines()
+    state=''
+    invalidl=[]
+    for line in lines:
+        num=re.search(r'\d\d\d..\d{1,}.\d{1,}', line)
+        email=re.search(r'[a-zA-Z0-9._-]{1,}@purdue.com', line)
+        x=re.findall(r'[A-Z][a-z]{1,}..?[a-zA-Z]{1,}',line)
+        name=x[0]
+        commaflag = re.search(r'[,]', name)
+        if commaflag is not None:
+            a = re.findall(r'\w+', name)
+            name = a[1] + ' ' + a[0]
+        if len(x) is 2:
+            state=x[1]
+        if state is '' and (num is not None or email is not None):
+            invalidl.append(name)
+        state =''
+    invalidl.sort()
+    return invalidl
+
